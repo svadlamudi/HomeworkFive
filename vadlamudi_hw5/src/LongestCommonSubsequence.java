@@ -43,23 +43,11 @@ public class LongestCommonSubsequence {
 	
 	/**
 	 * Returns the longest subsequence of the two strings.
-	 * Checks HashTable for the result.
 	 * 
 	 * @return String
 	 */
-	public String lcs(){
-		
-		LinkedList<String> tempList = new LinkedList<String>();
-		tempList.add(stringOne);
-		tempList.add(stringTwo);
-		
-		if(hashTable.containsKey(tempList))
-			return hashTable.get(tempList);
-		else{
-			String value = this.lcsHelper(0, 0);
-			hashTable.put(tempList, value);
-			return value;
-		}
+	public String lcs(){		
+		return this.lcsHelper(0, 0);			
 	}
 	
 	/**
@@ -73,60 +61,46 @@ public class LongestCommonSubsequence {
 	 */
 	public String lcsHelper(int startOne, int startTwo){
 		
-		int stringOneLength = this.stringOne.length()-startOne;
-		int stringTwoLength = this.stringTwo.length()-startTwo;
-		int startOneTemp = startOne;
-		int startTwoTemp = startTwo;
-		int startOneTemp2 = startOne;
-		int startTwoTemp2 = startTwo;
-		int startOneTemp3 = startOne;
-		int startTwoTemp3 = startTwo;
+		LinkedList<String> tempList = new LinkedList<String>();
+		tempList.add(stringOne.substring(startOne));
+		tempList.add(stringTwo.substring(startTwo));
 		
-		if(stringOneLength == 0 || stringTwoLength == 0){
-			return "";
-		}			
-		else if(this.stringOne.charAt(startOneTemp) == this.stringTwo.charAt(startTwoTemp)){
-			LinkedList<String> tempList = new LinkedList<String>();
-			tempList.add(stringOne.substring(startOneTemp));
-			tempList.add(stringTwo.substring(startTwoTemp));
+		int stringOneLength = this.stringOne.length()-startOne;
+		int stringTwoLength = this.stringTwo.length()-startTwo;		
+		
+		if(hashTable.containsKey(tempList)){
+			return hashTable.get(tempList);
+		}
+		
+		else{
 			
-			if(hashTable.containsKey(tempList))
-				return hashTable.get(tempList);
-			else{
-				String result = this.stringOne.charAt(startOne) + this.lcsHelper(startOne += 1, startTwo += 1);	
+			if(stringOneLength == 0 || stringTwoLength == 0){
+				return "";
+			}	
+			
+			else if(this.stringOne.charAt(startOne) == this.stringTwo.charAt(startTwo)){
+				String result = this.stringOne.charAt(startOne) + this.lcsHelper(startOne + 1, startTwo + 1);	
 				hashTable.put(tempList, result);
 				return result;
-			}			
-		}
-		else{
-			String stringOneResult;
-			String stringTwoResult;// = this.lcsHelper(startOneTemp3 += 1, startTwoTemp3);
-			
-			LinkedList<String> tempListTwo = new LinkedList<String>();
-			tempListTwo.add(stringOne.substring(startOneTemp2));
-			tempListTwo.add(stringTwo.substring(1 + startTwoTemp2));			
-			if(hashTable.containsKey(tempListTwo))
-				stringOneResult = hashTable.get(tempListTwo);
-			else{
-				stringOneResult = this.lcsHelper(startOneTemp2, startTwoTemp2 += 1);
-				hashTable.put(tempListTwo, stringOneResult);
 			}
 			
-			LinkedList<String> tempListThree = new LinkedList<String>();
-			tempListThree.add(stringOne.substring(1 + startOneTemp3));
-			tempListThree.add(stringTwo.substring(startTwoTemp3));	
-			if(hashTable.containsKey(tempListThree))
-				stringTwoResult = hashTable.get(tempListThree);
 			else{
-				stringTwoResult = this.lcsHelper(startOneTemp3 += 1, startTwoTemp3);
-				hashTable.put(tempListThree, stringTwoResult);
+				String stringOneResult = this.lcsHelper(startOne, startTwo + 1);			
+				String stringTwoResult = this.lcsHelper(startOne + 1, startTwo);				
+			
+				if(stringOneResult.length() > stringTwoResult.length()){
+					hashTable.put(tempList, stringOneResult);
+					return stringOneResult;
+				}					
+				else{
+					hashTable.put(tempList, stringTwoResult);
+					return stringTwoResult;
+				}					
 			}
 			
-			if(stringOneResult.length() > stringTwoResult.length())
-				return stringOneResult;
-			else
-				return stringTwoResult;
-		}			
-	}
+		}	
+		
+	}				
 }
+
 
