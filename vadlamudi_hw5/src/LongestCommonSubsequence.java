@@ -30,7 +30,7 @@ public class LongestCommonSubsequence {
 	
 	/**
 	 * Parameterized Constructor for LongestCommonSubsequence
-	 * Sets the parameters to their equivalent Object fields
+	 * Sets the parameters equal to their equivalent Object fields
 	 * 
 	 * @param stringOne
 	 * @param stringTwo
