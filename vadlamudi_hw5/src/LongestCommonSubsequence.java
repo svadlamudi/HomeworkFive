@@ -18,7 +18,7 @@ import java.util.LinkedList;
  * returns the longest subsequence string of the two string fields
  * of the activating object.
  */
-public class LongestCommonSubsequence {
+public class LongestCommonSubsequence{
 
 	/**
 	 * Two strings from which longest subsequence is calculated
@@ -71,19 +71,15 @@ public class LongestCommonSubsequence {
 		if(hashTable.containsKey(tempList)){
 			return hashTable.get(tempList);
 		}
-		
 		else{
-			
 			if(stringOneLength == 0 || stringTwoLength == 0){
 				return "";
-			}	
-			
+			}
 			else if(this.stringOne.charAt(startOne) == this.stringTwo.charAt(startTwo)){
 				String result = this.stringOne.charAt(startOne) + this.lcsHelper(startOne + 1, startTwo + 1);	
 				hashTable.put(tempList, result);
 				return result;
 			}
-			
 			else{
 				String stringOneResult = this.lcsHelper(startOne, startTwo + 1);			
 				String stringTwoResult = this.lcsHelper(startOne + 1, startTwo);				
@@ -97,9 +93,7 @@ public class LongestCommonSubsequence {
 					return stringTwoResult;
 				}					
 			}
-			
 		}	
-		
 	}				
 }
 
